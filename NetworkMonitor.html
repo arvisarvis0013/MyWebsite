@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 3 - Network Monitoring Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <a href="index.html" class="text-slate-600 hover:text-slate-900 text-sm">← Back to Home</a>
+
+    <h1 class="text-4xl font-bold mt-6">Project 3: Network Monitoring Tools</h1>
+
+    <div class="space-y-6 mt-6">
+      <section>
+        <h2 class="text-2xl font-semibold">Overview</h2>
+        <p class="mt-2 text-slate-700">Deployed a network monitoring tool in a Docker container on Debian Linux. Provides real-time visibility into traffic and devices, accessible only on LAN.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Network Setup</h2>
+        <p class="mt-2 text-slate-700">Tool runs inside Docker, mapped to LAN IP. Access restricted to trusted LAN devices via firewall rules. VPN with MFA allows secure external connections for approved users only.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Security Setup</h2>
+        <p class="mt-2 text-slate-700">Login and MFA required. MAC filtering limits switch connectivity. Wireless networks segregated. VPN with MFA secures remote access.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Notifications</h2>
+        <p class="mt-2 text-slate-700">Automated alerts notify administrators of key network events in real time.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Usage</h2>
+        <p class="mt-2 text-slate-700">Designed for admins to monitor traffic and receive alerts for issues quickly.</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
