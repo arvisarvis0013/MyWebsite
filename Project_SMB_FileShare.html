@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project 1 - SMB File Share</title>
 
-  <!-- Force Tailwind into class-based dark mode -->
+  <!-- Tailwind: enable class-based dark mode BEFORE CDN -->
   <script>
     tailwind = {};
     tailwind.config = { darkMode: 'class' };
@@ -13,14 +13,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<!-- Start in dark mode -->
-<body class="dark min-h-screen bg-slate-900 text-slate-100">
+<body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900
+             dark:from-slate-900 dark:to-slate-800 dark:text-slate-100">
   <!-- Header -->
   <div class="max-w-3xl mx-auto px-4 py-6 flex justify-between items-center">
-    <a href="index.html" class="text-slate-300 hover:text-white text-sm">← Back to Home</a>
+    <a href="index.html"
+       class="text-slate-600 hover:text-slate-900
+              dark:text-slate-300 dark:hover:text-white text-sm">← Back to Home</a>
 
     <button id="darkModeToggle"
-            class="px-3 py-1 rounded-lg text-sm bg-slate-700 text-slate-100 hover:bg-slate-600 transition">
+            class="px-3 py-1 rounded-lg text-sm bg-slate-200 text-slate-800 hover:bg-slate-300
+                   dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition">
       🌞 Toggle Light/Dark
     </button>
   </div>
@@ -31,7 +34,7 @@
 
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">Networking</h2>
-      <ul class="list-disc list-inside mt-3 space-y-2 text-slate-300">
+      <ul class="list-disc list-inside mt-3 space-y-2 text-slate-700 dark:text-slate-300">
         <li>Created the shared folder in Windows so other computers can see it on the network.</li>
         <li>Allowed access only from trusted IP address ranges (e.g., computers on our office network).</li>
         <li>Disabled any “allow everyone” network rules so unknown devices can’t reach the share.</li>
@@ -40,7 +43,7 @@
 
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">Security</h2>
-      <ul class="list-disc list-inside mt-3 space-y-2 text-slate-300">
+      <ul class="list-disc list-inside mt-3 space-y-2 text-slate-700 dark:text-slate-300">
         <li>Set folder access permissions so only specific people or groups can open, change, or save files.</li>
         <li>Matched the folder’s Windows security (NTFS) permissions with the share permissions.</li>
         <li>Turned off old, unsafe SMB version (SMBv1) that hackers could exploit.</li>
@@ -56,19 +59,16 @@
 
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">What This Means</h2>
-      <p class="mt-3 text-slate-300">
+      <p class="mt-3 text-slate-700 dark:text-slate-300">
         Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing.
       </p>
     </section>
   </div>
 
-  <!-- Simple toggle script -->
+  <!-- Simple toggle: flips .dark on <html> -->
   <script>
-    const root = document.documentElement;
-    const toggle = document.getElementById('darkModeToggle');
-
-    toggle.addEventListener('click', () => {
-      root.classList.toggle('dark');
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
     });
   </script>
 </body>
