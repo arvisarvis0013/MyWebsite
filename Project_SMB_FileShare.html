@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project 1 - SMB File Share</title>
-  <!-- Enable Tailwind dark mode via class -->
+  <!-- Correct Tailwind darkMode config -->
   <script>
-    tailwind = { config: { darkMode: 'class' } }
+    tailwind = {}
+    tailwind.config = {
+      darkMode: 'class'
+    }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -50,7 +53,7 @@
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">What This Means</h2>
       <p class="mt-3 text-slate-700 dark:text-slate-300">
-        Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing. ----------
+        Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing.
       </p>
     </section>
   </div>
