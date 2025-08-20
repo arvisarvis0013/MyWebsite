@@ -1,29 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project 1 - SMB File Share</title>
-  <!-- Correct Tailwind darkMode config -->
+
+  <!-- 1) Apply saved preference ASAP to avoid flash -->
   <script>
-    tailwind = {}
-    tailwind.config = {
-      darkMode: 'class'
-    }
+    (function () {
+      try {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- 2) Configure Tailwind *before* loading CDN -->
+  <script>
+    tailwind = {};
+    tailwind.config = { darkMode: 'class' };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 
-             dark:from-slate-900 dark:to-slate-800 dark:text-slate-100 min-h-screen">
+
+<body class="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900
+             dark:from-slate-900 dark:to-slate-800 dark:text-slate-100">
+  <!-- Header -->
   <div class="max-w-3xl mx-auto px-4 py-6 flex justify-between items-center">
-    <a href="index.html" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm">← Back to Home</a>
-    <button id="darkModeToggle" class="px-3 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 dark:text-slate-100 text-slate-800 text-sm">
+    <a href="index.html" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm">
+      ← Back to Home
+    </a>
+
+    <button id="darkModeToggle"
+            class="px-3 py-1 rounded-lg text-sm bg-slate-200 text-slate-800 hover:bg-slate-300
+                   dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition">
       🌙 Toggle Dark Mode
     </button>
   </div>
 
-  <div class="max-w-3xl mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mt-4">Project 1: SMB File Share via Windows In-Built Tools</h1>
+  <!-- Content -->
+  <div class="max-w-3xl mx-auto px-4 pb-12">
+    <h1 class="text-4xl font-bold mt-2">Project 1: SMB File Share via Windows In-Built Tools</h1>
 
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">Networking</h2>
@@ -53,26 +75,28 @@
     <section class="mt-8">
       <h2 class="text-2xl font-semibold">What This Means</h2>
       <p class="mt-3 text-slate-700 dark:text-slate-300">
-        Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing.
+        Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing.---------
       </p>
     </section>
   </div>
 
+  <!-- 3) Toggle + remember preference -->
   <script>
-    const STORAGE_KEY = 'theme';
-    const root = document.documentElement;
-    const toggle = document.getElementById('darkModeToggle');
+    (function () {
+      const STORAGE_KEY = 'theme';
+      const root = document.documentElement;
+      const toggle = document.getElementById('darkModeToggle');
 
-    // Apply saved preference
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === 'dark') root.classList.add('dark');
-    if (saved === 'light') root.classList.remove('dark');
+      // Re-apply saved preference in case user changed system theme mid-session
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'dark') root.classList.add('dark');
+      if (saved === 'light') root.classList.remove('dark');
 
-    // Toggle + save preference
-    toggle.addEventListener('click', () => {
-      const isDark = root.classList.toggle('dark');
-      localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
-    });
+      toggle.addEventListener('click', () => {
+        const isDark = root.classList.toggle('dark');
+        try { localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light'); } catch (e) {}
+      });
+    })();
   </script>
 </body>
 </html>
