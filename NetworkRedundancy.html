@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 6 - Network Redundancy (Uptime Kuma HA)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <a href="index.html" class="text-slate-600 hover:text-slate-900 text-sm">← Back to Home</a>
+
+    <h1 class="text-4xl font-bold mt-6">Project 6: Network Redundancy (High Availability with Uptime Kuma)</h1>
+
+    <div class="space-y-6 mt-6">
+      <section>
+        <h2 class="text-2xl font-semibold">Goal</h2>
+        <p class="mt-2 text-slate-700">Ensure Uptime Kuma is available 24/7, with automatic failover if the main VM fails, using shared database and virtual IP.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Architecture</h2>
+        <ul class="list-disc list-inside mt-2 text-slate-700 space-y-2">
+          <li>Two VMs (Master / Backup) running Debian + Docker</li>
+          <li>Shared storage for /app/data (SQLite database)</li>
+          <li>Keepalived manages VIP access</li>
+        </ul>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Active / Passive Setup</h2>
+        <table class="mt-2 border border-slate-300 text-slate-700 w-full text-left">
+          <thead class="bg-slate-100">
+            <tr>
+              <th class="p-2 border">VM</th>
+              <th class="p-2 border">Role</th>
+              <th class="p-2 border">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-2 border">VM1</td>
+              <td class="p-2 border">MASTER</td>
+              <td class="p-2 border">Runs container, holds VIP, writes to shared DB</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">VM2</td>
+              <td class="p-2 border">BACKUP</td>
+              <td class="p-2 border">Container stopped, monitors VIP, takes over on failover</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Failover Workflow</h2>
+        <p class="mt-2 text-slate-700">If MASTER fails, VIP moves to BACKUP. Backup starts container. When MASTER returns, it preempts BACKUP and resumes service.</p>
+      </section>
+      <section>
+        <h2 class="text-2xl font-semibold">Benefits</h2>
+        <ul class="list-disc list-inside mt-2 text-slate-700 space-y-2">
+          <li>High availability with minimal downtime</li>
+          <li>Shared database ensures consistency</li>
+          <li>Automatic failover between VMs</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
