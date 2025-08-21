@@ -6,7 +6,6 @@
   <title>Endpoint Data and Image Backup</title>
 
   <style>
-    /* --- color variables (light as base, dark overrides via .dark on <html>) --- */
     :root{
       --bg-start: #ffffff;
       --bg-end: #f8fafc;
@@ -31,7 +30,6 @@
       --shadow: 0 10px 30px rgba(2,6,23,0.6);
     }
 
-    /* --- base layout --- */
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -76,7 +74,7 @@
     }
     .toggle-btn:active{ transform: translateY(1px); }
 
-    h1{ font-size:28px; margin:18px 0 6px; }
+    h1{ font-size:28px; margin:18px 0 12px; }
     h2{ font-size:20px; margin:14px 0 8px; }
 
     .card{
@@ -89,10 +87,9 @@
       transition: background 220ms ease, border-color 220ms ease;
     }
 
-    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
     p{ color:var(--muted); margin:8px 0 0; }
 
-    /* responsive */
     @media (max-width:640px){
       .container{ padding:18px; }
       h1{ font-size:22px; }
@@ -108,57 +105,80 @@
 
     <h1>Endpoint Data and Image Backup</h1>
 
-    <div class="space-y-6 mt-6">
-      <section>
-        <h2 class="text-2xl font-semibold">1. Infrastructure Setup</h2>
-        <p class="mt-2 text-slate-700">Provisioned server hardware with CPU, RAM, and redundant storage (RAID). Installed and configured Type 1 hypervisor (VMware ESXi/Proxmox/Hyper-V). Storage pools and resources optimized for VM performance and reliability.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">2. Networking</h2>
-        <p class="mt-2 text-slate-700">Created virtual switches and VLANs for management, VM, and storage networks. Applied firewall rules to restrict unauthorized access and control traffic.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">3. VM Deployment</h2>
-        <p class="mt-2 text-slate-700">Deployed VMs with tailored CPU, memory, and disk allocations. Standardized configurations streamline management and backups.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">4. Backup & Restore Strategy</h2>
-        <p class="mt-2 text-slate-700">Implemented backup software (Veeam/Altaro) with onsite NAS and offsite/cloud redundancy. Scheduled full and incremental backups with test restores to ensure data reliability.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">5. Security Measures</h2>
-        <p class="mt-2 text-slate-700">Role-based access controls, network segmentation, encryption of VM disks and backups, and secure protocols in transit. Patch management ensures systems are current.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">6. Monitoring & Maintenance</h2>
-        <p class="mt-2 text-slate-700">Monitoring tools track host/VM usage. Backup jobs logged with alerts on failures. Routine log reviews and system checks maintain uptime.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">7. Disaster Recovery & Documentation</h2>
-        <p class="mt-2 text-slate-700">Documented procedures, network design, and security policies. Maintained onsite/offsite copies. Disaster recovery plan includes VM failover to minimize downtime.</p>
-      </section>
+    <section class="card" aria-labelledby="infra">
+      <h2 id="infra">Infrastructure Setup</h2>
+      <ul>
+        <li>Provisioned server hardware with CPU, RAM, and redundant storage (RAID).</li>
+        <li>Installed and configured Type 1 hypervisor (VMware ESXi/Proxmox/Hyper-V).</li>
+        <li>Storage pools and resources optimized for VM performance and reliability.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="network">
+      <h2 id="network">Networking</h2>
+      <ul>
+        <li>Created virtual switches and VLANs for management, VM, and storage networks.</li>
+        <li>Applied firewall rules to restrict unauthorized access and control traffic.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="vm">
+      <h2 id="vm">VM Deployment</h2>
+      <ul>
+        <li>Deployed VMs with tailored CPU, memory, and disk allocations.</li>
+        <li>Standardized configurations streamline management and backups.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="backup">
+      <h2 id="backup">Backup & Restore Strategy</h2>
+      <ul>
+        <li>Implemented backup software (Veeam/Altaro) with onsite NAS and offsite/cloud redundancy.</li>
+        <li>Scheduled full and incremental backups with test restores to ensure data reliability.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="security">
+      <h2 id="security">Security Measures</h2>
+      <ul>
+        <li>Role-based access controls, network segmentation, encryption of VM disks and backups, and secure protocols in transit.</li>
+        <li>Patch management ensures systems are current.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="monitor">
+      <h2 id="monitor">Monitoring & Maintenance</h2>
+      <ul>
+        <li>Monitoring tools track host/VM usage.</li>
+        <li>Backup jobs logged with alerts on failures.</li>
+        <li>Routine log reviews and system checks maintain uptime.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="dr">
+      <h2 id="dr">Disaster Recovery & Documentation</h2>
+      <ul>
+        <li>Documented procedures, network design, and security policies.</li>
+        <li>Maintained onsite/offsite copies.</li>
+        <li>Disaster recovery plan includes VM failover to minimize downtime.</li>
+      </ul>
+    </section>
   </div>
 
   <script>
-    // Minimal toggle script — flips dark on <html>, updates button label
     (function(){
       const btn = document.getElementById('darkToggle');
       const html = document.documentElement;
-
-      // Ensure default is dark (html initially has class "dark" in our template)
       if (!html.classList.contains('dark')) html.classList.add('dark');
-
       function updateLabel(){
         const isDark = html.classList.contains('dark');
         btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
         btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
       }
-
       btn.addEventListener('click', function(){
         html.classList.toggle('dark');
         updateLabel();
       }, false);
-
       updateLabel();
     })();
   </script>
