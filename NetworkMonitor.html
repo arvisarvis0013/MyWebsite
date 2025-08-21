@@ -1,39 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Project 3 - Network Monitoring Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --bg-start: #ffffff;
+      --bg-end: #f8fafc;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #0f172a;
+      --muted: #475569;
+      --card-bg: #ffffff;
+      --accent-bg: #111827;
+      --accent-text: #ffffff;
+      --shadow: 0 6px 18px rgba(12, 24, 36, 0.06);
+      --radius: 14px;
+    }
+    html.dark {
+      --bg-start: #071026;
+      --bg-end: #0b1220;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #e6eef8;
+      --muted: #94a3b8;
+      --card-bg: #081022;
+      --accent-bg: #334155;
+      --accent-text: #e6eef8;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--page-bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition: background 220ms ease, color 220ms ease;
+      line-height:1.5;
+    }
+
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    a.back{
+      text-decoration:none;
+      color:var(--muted);
+      font-size:14px;
+    }
+    a.back:hover{ color: var(--text); }
+
+    .toggle-btn{
+      background:var(--accent-bg);
+      color:var(--accent-text);
+      border:0;
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+    .toggle-btn:active{ transform: translateY(1px); }
+
+    h1{ font-size:28px; margin:18px 0 12px; }
+    h2{ font-size:20px; margin:14px 0 8px; }
+
+    .card{
+      background: var(--card-bg);
+      padding:18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top:12px;
+      border:1px solid rgba(0,0,0,0.03);
+      transition: background 220ms ease, border-color 220ms ease;
+    }
+
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
+    p{ color:var(--muted); margin:8px 0 0; }
+
+    @media (max-width:640px){
+      .container{ padding:18px; }
+      h1{ font-size:22px; }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 min-h-screen">
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <a href="index.html" class="text-slate-600 hover:text-slate-900 text-sm">← Back to Home</a>
-
-    <h1 class="text-4xl font-bold mt-6">Project 3: Network Monitoring Tools</h1>
-
-    <div class="space-y-6 mt-6">
-      <section>
-        <h2 class="text-2xl font-semibold">Overview</h2>
-        <p class="mt-2 text-slate-700">Deployed a network monitoring tool in a Docker container on Debian Linux. Provides real-time visibility into traffic and devices, accessible only on LAN.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Network Setup</h2>
-        <p class="mt-2 text-slate-700">Tool runs inside Docker, mapped to LAN IP. Access restricted to trusted LAN devices via firewall rules. VPN with MFA allows secure external connections for approved users only.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Security Setup</h2>
-        <p class="mt-2 text-slate-700">Login and MFA required. MAC filtering limits switch connectivity. Wireless networks segregated. VPN with MFA secures remote access.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Notifications</h2>
-        <p class="mt-2 text-slate-700">Automated alerts notify administrators of key network events in real time.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Usage</h2>
-        <p class="mt-2 text-slate-700">Designed for admins to monitor traffic and receive alerts for issues quickly.</p>
-      </section>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="back" href="index.html">← Back to Home</a>
+      <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
+
+    <h1>Project 3: Network Monitoring Tools</h1>
+
+    <section class="card" aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Deployed a network monitoring tool in a Docker container on Debian Linux. Provides real-time visibility into traffic and devices, accessible only on LAN.</p>
+    </section>
+
+    <section class="card" aria-labelledby="network-setup">
+      <h2 id="network-setup">Network Setup</h2>
+      <ul>
+        <li>Tool runs inside Docker, mapped to LAN IP.</li>
+        <li>Access restricted to trusted LAN devices via firewall rules.</li>
+        <li>VPN with MFA allows secure external connections for approved users only.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="security-setup">
+      <h2 id="security-setup">Security Setup</h2>
+      <ul>
+        <li>Login and MFA required.</li>
+        <li>MAC filtering limits switch connectivity.</li>
+        <li>Wireless networks segregated.</li>
+        <li>VPN with MFA secures remote access.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="notifications">
+      <h2 id="notifications">Notifications</h2>
+      <ul>
+        <li>Automated alerts notify administrators of key network events in real time.</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="usage">
+      <h2 id="usage">Usage</h2>
+      <ul>
+        <li>Designed for admins to monitor traffic and receive alerts for issues quickly.</li>
+      </ul>
+    </section>
   </div>
+
+  <script>
+    (function(){
+      const btn = document.getElementById('darkToggle');
+      const html = document.documentElement;
+      if (!html.classList.contains('dark')) html.classList.add('dark');
+      function updateLabel(){
+        const isDark = html.classList.contains('dark');
+        btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      }
+      btn.addEventListener('click', function(){
+        html.classList.toggle('dark');
+        updateLabel();
+      }, false);
+      updateLabel();
+    })();
+  </script>
 </body>
 </html>
