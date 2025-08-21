@@ -1,35 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Website, Domain, Hosting, DNS, Certs</title>
   <style>
-    <style>
-    /* --- color variables (light as base, dark overrides via .dark on <html>) --- */
     :root{
       --bg-start: #ffffff;
       --bg-end: #f8fafc;
       --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
       --text: #0f172a;
       --muted: #475569;
-      --card-bg: #ffffff;
+      --card-bg: #f3f4f6;
       --accent-bg: #111827;
       --accent-text: #ffffff;
-      --shadow: 0 6px 18px rgba(12, 24, 36, 0.06);
+      --shadow: 0 6px 16px rgba(0,0,0,0.2);
       --radius: 14px;
     }
     html.dark {
-      --bg-start: #071026;
-      --bg-end: #0b1220;
+      --bg-start: #2a2a2a;
+      --bg-end: #383838;
       --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
       --text: #e6eef8;
-      --muted: #94a3b8;
-      --card-bg: #081022;
-      --accent-bg: #334155;
+      --muted: #b0b0b0;
+      --card-bg: #4a4a4a;
+      --accent-bg: #5a5a5a;
       --accent-text: #e6eef8;
-      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --shadow: 0 6px 16px rgba(255,255,255,0.05);
     }
 
-    /* --- base layout --- */
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -75,26 +74,7 @@
     .toggle-btn:active{ transform: translateY(1px); }
 
     h1{ font-size:28px; margin:18px 0 6px; }
-    h2{ font-size:20px; margin:14px 0 8px; }
-
-    .card{
-      background: var(--card-bg);
-      padding:18px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-top:12px;
-      border:1px solid rgba(0,0,0,0.03);
-      transition: background 220ms ease, border-color 220ms ease;
-    }
-
-    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
-    p{ color:var(--muted); margin:8px 0 0; }
-
-    /* responsive */
-    @media (max-width:640px){
-      .container{ padding:18px; }
-      h1{ font-size:22px; }
-    }
+    p{ margin:8px 0 0; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -103,41 +83,27 @@
       <a class="back" href="index.html">← Back to Home</a>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project 4 - Website, Domain, Hosting, DNS, Certs</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 min-h-screen">
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <a href="index.html" class="text-slate-600 hover:text-slate-900 text-sm">← Back to Home</a>
 
-    <h1 class="text-4xl font-bold mt-6">Project 4: Website, Domain, Hosting, DNS, Certs</h1>
-    <p class="mt-4 text-slate-700">Placeholder page — details will be filled in later.</p>
+    <h1>Website, Domain, Hosting, DNS, Certs</h1>
+    <p>Placeholder page — details will be filled in later.</p>
   </div>
-</body>
 
   <script>
-    // Minimal toggle script — flips dark on <html>, updates button label
     (function(){
       const btn = document.getElementById('darkToggle');
       const html = document.documentElement;
-
-      // Ensure default is dark (html initially has class "dark" in our template)
       if (!html.classList.contains('dark')) html.classList.add('dark');
-
       function updateLabel(){
         const isDark = html.classList.contains('dark');
         btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
         btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
       }
-
       btn.addEventListener('click', function(){
         html.classList.toggle('dark');
         updateLabel();
       }, false);
-
       updateLabel();
     })();
   </script>
+</body>
 </html>
