@@ -1,207 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arvy's Projects</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Homepage</title>
   <style>
-    /* --- color variables (light as base, dark overrides via .dark on <html>) --- */
     :root{
-      --bg-start: #ffffff;
-      --bg-end: #f8fafc;
-      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
-      --text: #0f172a;
-      --muted: #475569;
-      --card-bg: #ffffff;
-      --accent-bg: #111827;
-      --accent-text: #ffffff;
-      --shadow: 0 6px 18px rgba(12, 24, 36, 0.06);
-      --radius: 14px;
+      --bg-start: #ffffff; --bg-end:#f8fafc; --page-bg:linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text:#0f172a; --muted:#475569; --card-bg:#ffffff; --accent-bg:#111827; --accent-text:#ffffff;
+      --shadow:0 6px 18px rgba(12,24,36,0.06); --radius:14px;
     }
-    html.dark {
-      --bg-start: #071026;
-      --bg-end: #0b1220;
-      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
-      --text: #e6eef8;
-      --muted: #94a3b8;
-      --card-bg: #081022;
-      --accent-bg: #334155;
-      --accent-text: #e6eef8;
-      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    html.dark{
+      --bg-start:#071026; --bg-end:#0b1220; --page-bg:linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text:#e6eef8; --muted:#94a3b8; --card-bg:#081022; --accent-bg:#334155; --accent-text:#e6eef8;
+      --shadow:0 10px 30px rgba(2,6,23,0.6);
     }
-
-    /* --- base layout --- */
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--page-bg);
-      color: var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      transition: background 220ms ease, color 220ms ease;
-      line-height:1.5;
-    }
-
-    .container{
-      max-width:920px;
-      margin:0 auto;
-      padding:28px;
-    }
-
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    a.back{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-    }
-    a.back:hover{ color: var(--text); }
-
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui;-webkit-font-smoothing:antialiased;
+      background:var(--page-bg);color:var(--text);transition:background 220ms ease,color 220ms ease;}
+    .container{max-width:1000px;margin:0 auto;padding:32px;}
+    .header{display:flex;justify-content:flex-end;margin-bottom:24px;}
     .toggle-btn{
-      background:var(--accent-bg);
-      color:var(--accent-text);
-      border:0;
-      padding:8px 12px;
-      border-radius:10px;
-      font-size:14px;
-      cursor:pointer;
-      box-shadow: var(--shadow);
+      background:var(--accent-bg);color:var(--accent-text);border:0;padding:10px 14px;border-radius:12px;
+      cursor:pointer;font-size:14px;font-weight:500;box-shadow:var(--shadow);transition:background 0.2s;
     }
-    .toggle-btn:active{ transform: translateY(1px); }
-
-    h1{ font-size:28px; margin:18px 0 6px; }
-    h2{ font-size:20px; margin:14px 0 8px; }
-
+    .toggle-btn:hover{background:#1e293b;}
+    h1{font-size:32px;margin:18px 0;text-align:center;}
+    .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:32px;}
     .card{
-      background: var(--card-bg);
-      padding:18px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-top:12px;
-      border:1px solid rgba(0,0,0,0.03);
-      transition: background 220ms ease, border-color 220ms ease;
+      background:var(--card-bg);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow);
+      transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;justify-content:center;
     }
-
-    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
-    p{ color:var(--muted); margin:8px 0 0; }
-
-    /* responsive */
-    @media (max-width:640px){
-      .container{ padding:18px; }
-      h1{ font-size:22px; }
-    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.25);}
+    .card a{text-decoration:none;color:var(--text);font-size:18px;font-weight:600;text-align:center;}
   </style>
-  
-</head>
-<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900">
-  <!-- Header -->
-  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-slate-200">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center font-bold">A</div>
-          <span class="font-semibold">Arvy</span>
-          <div class="container">
-          <div class="header">
-          <a class="back" href="index.html">← Back to Home</a>
-          <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
 </head>
 <body>
-
-  <!-- Hero -->
-  <section id="home" class="relative overflow-hidden">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28 text-center">
-      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
-        Welcome to the Project Showcase
-      </h1>
-      <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
-        A Work in Progress
-      </p>
+  <div class="container">
+    <div class="header">
+      <button id="darkToggle" class="toggle-btn">🌞 Switch to Light</button>
     </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="py-20 border-t border-slate-200">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center">Projects</h2>
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">SMB File Share Using Windows in-built Tools</h3>
-          <a href="Project_SMB_FileShare.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">Endpoint Data and Image Backup</h3>
-          <a href="ImageBackup.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">Network Monitoring Tools Setup</h3>
-          <a href="NetworkMonitor.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">Website, domain, hosting, DNS, Certs</h3>
-          <a href="WebsiteHosting.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">VPN Setup and config</h3>
-          <a href="VPN.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm text-center">
-          <h3 class="font-semibold text-lg">Network Redundancy</h3>
-          <a href="NetworkRedundancy.html" class="mt-4 inline-block rounded-2xl border border-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-900 hover:text-white transition shadow-sm">View Project →</a>
-        </div>
-      </div>
+    <h1>My Projects</h1>
+    <div class="grid">
+      <div class="card"><a href="project1.html">Project 1 - SMB File Share</a></div>
+      <div class="card"><a href="project2.html">Project 2 - Endpoint Backup</a></div>
+      <div class="card"><a href="project3.html">Project 3 - Network Monitoring</a></div>
+      <div class="card"><a href="project4.html">Project 4 - Website, Hosting & DNS</a></div>
+      <div class="card"><a href="project5.html">Project 5 - VPN Setup</a></div>
+      <div class="card"><a href="project6.html">Project 6 - Network Redundancy</a></div>
     </div>
-  </section>
+  </div>
 
   <script>
-    // Minimal toggle script — flips dark on <html>, updates button label
     (function(){
-      const btn = document.getElementById('darkToggle');
-      const html = document.documentElement;
-
-      // Ensure default is dark (html initially has class "dark" in our template)
-      if (!html.classList.contains('dark')) html.classList.add('dark');
-
-      function updateLabel(){
-        const isDark = html.classList.contains('dark');
-        btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
-        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      const btn=document.getElementById('darkToggle');
+      const html=document.documentElement;
+      if(!html.classList.contains('dark')) html.classList.add('dark');
+      function update(){
+        const isDark=html.classList.contains('dark');
+        btn.textContent=isDark?'🌞 Switch to Light':'🌙 Switch to Dark';
       }
-
-      btn.addEventListener('click', function(){
-        html.classList.toggle('dark');
-        updateLabel();
-      }, false);
-
-      updateLabel();
+      btn.addEventListener('click',()=>{html.classList.toggle('dark');update()});
+      update();
     })();
   </script>
-
-  <!-- Footer -->
-  <footer class="border-t border-slate-200 py-10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-sm text-slate-600">© <script>document.write(new Date().getFullYear())</script> Arvy's Projects. All rights reserved.</p>
-    </div>
-  </footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
