@@ -1,67 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Project 6 - Network Redundancy (Uptime Kuma HA)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --bg-start: #ffffff;
+      --bg-end: #f8fafc;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #0f172a;
+      --muted: #475569;
+      --card-bg: #ffffff;
+      --accent-bg: #111827;
+      --accent-text: #ffffff;
+      --shadow: 0 6px 18px rgba(12, 24, 36, 0.06);
+      --radius: 14px;
+    }
+    html.dark {
+      --bg-start: #071026;
+      --bg-end: #0b1220;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #e6eef8;
+      --muted: #94a3b8;
+      --card-bg: #081022;
+      --accent-bg: #334155;
+      --accent-text: #e6eef8;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--page-bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition: background 220ms ease, color 220ms ease;
+      line-height:1.5;
+    }
+
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    a.back{
+      text-decoration:none;
+      color:var(--muted);
+      font-size:14px;
+    }
+    a.back:hover{ color: var(--text); }
+
+    .toggle-btn{
+      background:var(--accent-bg);
+      color:var(--accent-text);
+      border:0;
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+    .toggle-btn:active{ transform: translateY(1px); }
+
+    h1{ font-size:28px; margin:18px 0 12px; }
+    h2{ font-size:20px; margin:14px 0 8px; }
+
+    .card{
+      background: var(--card-bg);
+      padding:18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top:12px;
+      border:1px solid rgba(0,0,0,0.03);
+      transition: background 220ms ease, border-color 220ms ease;
+    }
+
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
+    p{ color:var(--muted); margin:8px 0 0; }
+    table{ border-collapse:collapse; width:100%; margin-top:8px; }
+    th, td{ border:1px solid rgba(0,0,0,0.1); padding:8px; }
+    th{ background-color: rgba(0,0,0,0.05); text-align:left; }
+
+    @media (max-width:640px){
+      .container{ padding:18px; }
+      h1{ font-size:22px; }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-white to-slate-50 text-slate-900 min-h-screen">
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <a href="index.html" class="text-slate-600 hover:text-slate-900 text-sm">← Back to Home</a>
-
-    <h1 class="text-4xl font-bold mt-6">Project 6: Network Redundancy (High Availability with Uptime Kuma)</h1>
-
-    <div class="space-y-6 mt-6">
-      <section>
-        <h2 class="text-2xl font-semibold">Goal</h2>
-        <p class="mt-2 text-slate-700">Ensure Uptime Kuma is available 24/7, with automatic failover if the main VM fails, using shared database and virtual IP.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Architecture</h2>
-        <ul class="list-disc list-inside mt-2 text-slate-700 space-y-2">
-          <li>Two VMs (Master / Backup) running Debian + Docker</li>
-          <li>Shared storage for /app/data (SQLite database)</li>
-          <li>Keepalived manages VIP access</li>
-        </ul>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Active / Passive Setup</h2>
-        <table class="mt-2 border border-slate-300 text-slate-700 w-full text-left">
-          <thead class="bg-slate-100">
-            <tr>
-              <th class="p-2 border">VM</th>
-              <th class="p-2 border">Role</th>
-              <th class="p-2 border">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="p-2 border">VM1</td>
-              <td class="p-2 border">MASTER</td>
-              <td class="p-2 border">Runs container, holds VIP, writes to shared DB</td>
-            </tr>
-            <tr>
-              <td class="p-2 border">VM2</td>
-              <td class="p-2 border">BACKUP</td>
-              <td class="p-2 border">Container stopped, monitors VIP, takes over on failover</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Failover Workflow</h2>
-        <p class="mt-2 text-slate-700">If MASTER fails, VIP moves to BACKUP. Backup starts container. When MASTER returns, it preempts BACKUP and resumes service.</p>
-      </section>
-      <section>
-        <h2 class="text-2xl font-semibold">Benefits</h2>
-        <ul class="list-disc list-inside mt-2 text-slate-700 space-y-2">
-          <li>High availability with minimal downtime</li>
-          <li>Shared database ensures consistency</li>
-          <li>Automatic failover between VMs</li>
-        </ul>
-      </section>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="back" href="index.html">← Back to Home</a>
+      <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
+
+    <h1>Project 6: Network Redundancy (High Availability with Uptime Kuma)</h1>
+
+    <section class="card" aria-labelledby="goal">
+      <h2 id="goal">Goal</h2>
+      <p>Ensure Uptime Kuma is available 24/7, with automatic failover if the main VM fails, using shared database and virtual IP.</p>
+    </section>
+
+    <section class="card" aria-labelledby="architecture">
+      <h2 id="architecture">Architecture</h2>
+      <ul>
+        <li>Two VMs (Master / Backup) running Debian + Docker</li>
+        <li>Shared storage for /app/data (SQLite database)</li>
+        <li>Keepalived manages VIP access</li>
+      </ul>
+    </section>
+
+    <section class="card" aria-labelledby="active-passive">
+      <h2 id="active-passive">Active / Passive Setup</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>VM</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>VM1</td>
+            <td>MASTER</td>
+            <td>Runs container, holds VIP, writes to shared DB</td>
+          </tr>
+          <tr>
+            <td>VM2</td>
+            <td>BACKUP</td>
+            <td>Container stopped, monitors VIP, takes over on failover</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" aria-labelledby="failover">
+      <h2 id="failover">Failover Workflow</h2>
+      <p>If MASTER fails, VIP moves to BACKUP. Backup starts container. When MASTER returns, it preempts BACKUP and resumes service.</p>
+    </section>
+
+    <section class="card" aria-labelledby="benefits">
+      <h2 id="benefits">Benefits</h2>
+      <ul>
+        <li>High availability with minimal downtime</li>
+        <li>Shared database ensures consistency</li>
+        <li>Automatic failover between VMs</li>
+      </ul>
+    </section>
   </div>
+
+  <script>
+    (function(){
+      const btn = document.getElementById('darkToggle');
+      const html = document.documentElement;
+      if (!html.classList.contains('dark')) html.classList.add('dark');
+      function updateLabel(){
+        const isDark = html.classList.contains('dark');
+        btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      }
+      btn.addEventListener('click', function(){
+        html.classList.toggle('dark');
+        updateLabel();
+      }, false);
+      updateLabel();
+    })();
+  </script>
 </body>
 </html>
