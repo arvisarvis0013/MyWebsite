@@ -1,83 +1,140 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Project Showcase</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
   <style>
-    :root{
-      --bg-start: #ffffff; --bg-end:#f8fafc; --page-bg:linear-gradient(180deg,var(--bg-start),var(--bg-end));
-      --text:#0f172a; --muted:#475569; --card-bg:#ffffff; --accent-bg:#111827; --accent-text:#ffffff;
-      --shadow:0 6px 18px rgba(12,24,36,0.06); --radius:14px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1f2937; /* dark gray background */
+      color: #f3f4f6; /* light gray text */
     }
-    html.dark{
-      --bg-start:#071026; --bg-end:#0b1220; --page-bg:linear-gradient(180deg,var(--bg-start),var(--bg-end));
-      --text:#e6eef8; --muted:#94a3b8; --card-bg:#081022; --accent-bg:#334155; --accent-text:#e6eef8;
-      --shadow:0 10px 30px rgba(2,6,23,0.6);
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #111827; /* darker header */
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui;-webkit-font-smoothing:antialiased;
-      background:var(--page-bg);color:var(--text);transition:background 220ms ease,color 220ms ease;}
-    .container{max-width:1000px;margin:0 auto;padding:32px;}
-    .header{display:flex;justify-content:flex-end;margin-bottom:24px;}
-    .toggle-btn{
-      background:var(--accent-bg);color:var(--accent-text);border:0;padding:10px 14px;border-radius:12px;
-      cursor:pointer;font-size:14px;font-weight:500;box-shadow:var(--shadow);transition:background 0.2s;
+    .top-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
     }
-    .toggle-btn:hover{background:#1e293b;}
-    h1{font-size:32px;margin:18px 0;text-align:center;}
-    .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:32px;}
-    .card{
-      background:var(--card-bg);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow);
-      transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;justify-content:center;
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f9fafb;
     }
-    .card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.25);}
-    .card a{text-decoration:none;color:var(--text);font-size:18px;font-weight:600;text-align:center;}
+    h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #f9fafb;
+      text-align: center;
+    }
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    nav a {
+      color: #f3f4f6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #9ca3af; /* lighter gray on hover */
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #374151;
+      padding-bottom: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .card {
+      background: #374151; /* medium gray card */
+      border-radius: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: #f9fafb;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+      background: #4b5563; /* lighter gray on hover */
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <button id="darkToggle" class="toggle-btn">🌞 Switch to Light</button>
+  <header>
+    <div class="top-bar">
+      <div class="logo">A</div>
+      <div style="width: 2rem;"></div> <!-- Spacer -->
     </div>
-     <!-- Hero -->
-  <section id="home" class="relative overflow-hidden">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28 text-center">
-      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
-        Welcome to the Project Showcase
-      </h1>
-      <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
-        Explore projects 1 through 5 below. Each project has its own page with room for details.
-      </p>
-    </div>
-  </section>
+    <h1>Welcome to My Portfolio!</h1>
+  </header>
 
-    <h1>My Projects</h1>
-    <div class="grid">
-      <div class="card"><a href="Project_SMB_FileShare.html">Project 1 - SMB File Share</a></div>
-      <div class="card"><a href="ImageBackup.html">Project 2 - Endpoint Backup</a></div>
-      <div class="card"><a href="NetworkMonitor.html">Project 3 - Network Monitoring</a></div>
-      <div class="card"><a href="WebsiteHosting.html">Project 4 - Website, Hosting & DNS</a></div>
-      <div class="card"><a href="VPN.html">Project 5 - VPN Setup</a></div>
-      <div class="card"><a href="NetworkRedundancy.html">Project 6 - Network Redundancy</a></div>
-    </div>
-  </div>
+  <main>
+    <!-- Networking Section -->
+    <section>
+      <h2>Networking</h2>
+      <div class="grid">
+        <a href="VPN.html" class="card">VPN Configuration</a>
+        <a href="NetworkMonitor.html" class="card">Network Monitoring Tool</a>
+      </div>
+    </section>
 
-  <script>
-    (function(){
-      const btn=document.getElementById('darkToggle');
-      const html=document.documentElement;
-      if(!html.classList.contains('dark')) html.classList.add('dark');
-      function update(){
-        const isDark=html.classList.contains('dark');
-        btn.textContent=isDark?'🌞 Switch to Light':'🌙 Switch to Dark';
-      }
-      btn.addEventListener('click',()=>{html.classList.toggle('dark');update()});
-      update();
-    })();
-  </script>
+    <!-- Infrastructure Section -->
+    <section>
+      <h2>Infrastructure</h2>
+      <div class="grid">
+        <a href="WebsiteHosting.html" class="card">Website Creation</a>
+        <a href="Project_SMB_FileShare.html" class="card">File Share</a>
+        <a href="NetworkRedundancy.html" class="card">Docker Container Deployment & Redundancy</a>
+        <a href="ImageBackup.html" class="card">Imaging & Backup</a>
+      </div>
+    </section>
+
+    <!-- Template Section -->
+    <!--
+    <section>
+      <h2>Category Name</h2>
+      <div class="grid">
+        <a href="#" class="card">Project Example 1</a>
+        <a href="#" class="card">Project Example 2</a>
+        <a href="#" class="card">Project Example 3</a>
+      </div>
+    </section>
+    -->
+  </main>
 </body>
 </html>
-
-
-
