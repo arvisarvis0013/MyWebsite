@@ -1,6 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <style>
+    /* --- color variables (light as base, dark overrides via .dark on <html>) --- */
+    :root{
+      --bg-start: #ffffff;
+      --bg-end: #f8fafc;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #0f172a;
+      --muted: #475569;
+      --card-bg: #ffffff;
+      --accent-bg: #111827;
+      --accent-text: #ffffff;
+      --shadow: 0 6px 18px rgba(12, 24, 36, 0.06);
+      --radius: 14px;
+    }
+    html.dark {
+      --bg-start: #071026;
+      --bg-end: #0b1220;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #e6eef8;
+      --muted: #94a3b8;
+      --card-bg: #081022;
+      --accent-bg: #334155;
+      --accent-text: #e6eef8;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    /* --- base layout --- */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--page-bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition: background 220ms ease, color 220ms ease;
+      line-height:1.5;
+    }
+
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    a.back{
+      text-decoration:none;
+      color:var(--muted);
+      font-size:14px;
+    }
+    a.back:hover{ color: var(--text); }
+
+    .toggle-btn{
+      background:var(--accent-bg);
+      color:var(--accent-text);
+      border:0;
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+    .toggle-btn:active{ transform: translateY(1px); }
+
+    h1{ font-size:28px; margin:18px 0 6px; }
+    h2{ font-size:20px; margin:14px 0 8px; }
+
+    .card{
+      background: var(--card-bg);
+      padding:18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top:12px;
+      border:1px solid rgba(0,0,0,0.03);
+      transition: background 220ms ease, border-color 220ms ease;
+    }
+
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
+    p{ color:var(--muted); margin:8px 0 0; }
+
+    /* responsive */
+    @media (max-width:640px){
+      .container{ padding:18px; }
+      h1{ font-size:22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="back" href="index.html">← Back to Home</a>
+      <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
+    </div>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project 4 - Website, Domain, Hosting, DNS, Certs</title>
@@ -14,4 +115,28 @@
     <p class="mt-4 text-slate-700">Placeholder page — details will be filled in later.</p>
   </div>
 </body>
+
+  <script>
+    // Minimal toggle script — flips dark on <html>, updates button label
+    (function(){
+      const btn = document.getElementById('darkToggle');
+      const html = document.documentElement;
+
+      // Ensure default is dark (html initially has class "dark" in our template)
+      if (!html.classList.contains('dark')) html.classList.add('dark');
+
+      function updateLabel(){
+        const isDark = html.classList.contains('dark');
+        btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      }
+
+      btn.addEventListener('click', function(){
+        html.classList.toggle('dark');
+        updateLabel();
+      }, false);
+
+      updateLabel();
+    })();
+  </script>
 </html>
