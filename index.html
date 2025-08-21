@@ -127,6 +127,14 @@
 
     a.card{ display:block; }
 
+    footer{
+      text-align:center;
+      padding:2rem;
+      font-size:0.9rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
     @media(max-width:640px){
       main{padding:1rem;}
       section h2{font-size:1.5rem;}
@@ -137,7 +145,7 @@
 <body>
   <header>
     <div class="top-bar">
-      <div class="logo">A</div>
+      <div class="logo"><strong>A</strong>rvy</div>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
     <h1>Welcome to My Portfolio</h1>
@@ -171,6 +179,10 @@
       </div>
     </section>
   </main>
+
+  <footer>
+    Email: <a href="mailto:enquiries@arvysite.org">enquiries@arvysite.org</a>
+  </footer>
 
   <script>
     (function(){
