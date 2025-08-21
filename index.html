@@ -108,17 +108,17 @@
         <div class="flex items-center gap-3">
           <div class="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center font-bold">A</div>
           <span class="font-semibold">Arvy</span>
+          <div class="container">
+          <div class="header">
+          <a class="back" href="index.html">← Back to Home</a>
+          <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
+          </div>
         </div>
       </div>
     </div>
   </header>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <a class="back" href="index.html">← Back to Home</a>
-      <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
-    </div>
 
   <!-- Hero -->
   <section id="home" class="relative overflow-hidden">
@@ -165,14 +165,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-200 py-10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-sm text-slate-600">© <script>document.write(new Date().getFullYear())</script> Arvy's Projects. All rights reserved.</p>
-    </div>
-  </footer>
-
-    <script>
+  <script>
     // Minimal toggle script — flips dark on <html>, updates button label
     (function(){
       const btn = document.getElementById('darkToggle');
@@ -195,8 +188,16 @@
       updateLabel();
     })();
   </script>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 py-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-sm text-slate-600">© <script>document.write(new Date().getFullYear())</script> Arvy's Projects. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
+
 
 
 
