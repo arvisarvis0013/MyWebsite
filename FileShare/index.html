@@ -42,24 +42,10 @@
       line-height:1.5;
     }
 
-    .container{
-      max-width:920px;
-      margin:0 auto;
-      padding:28px;
-    }
+    .container{ max-width:920px; margin:0 auto; padding:28px; }
+    .header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
 
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    a.back{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-    }
+    a.back{ text-decoration:none; color:var(--muted); font-size:14px; }
     a.back:hover{ color: var(--text); }
 
     .toggle-btn{
@@ -76,6 +62,7 @@
 
     h1{ font-size:28px; margin:18px 0 6px; }
     h2{ font-size:20px; margin:14px 0 8px; }
+    h3{ font-size:18px; margin:12px 0 6px; }
 
     .card{
       background: var(--card-bg);
@@ -88,6 +75,51 @@
 
     ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
     p{ color:var(--muted); margin:8px 0 0; }
+
+    .image-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:16px;
+      margin-top:12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      width:100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.3s ease;
+      z-index:1000;
+    }
+    .lightbox.active{ opacity:1; visibility:visible; }
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius: var(--radius);
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox:after{
+      content:"✕";
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      color:white;
+      cursor:pointer;
+    }
 
     @media (max-width:640px){
       .container{ padding:18px; }
@@ -104,38 +136,97 @@
 
     <h1>SMB File Share via Windows In-Built Tools</h1>
 
-    <section class="card" aria-labelledby="net">
-      <h2 id="net">Networking</h2>
-      <ul>
-        <li>Created the shared folder in Windows so other computers can see it on the network.</li>
-        <li>Allowed access only from trusted IP address ranges (e.g., computers on our office network).</li>
-        <li>Disabled any “allow everyone” network rules so unknown devices can’t reach the share.</li>
-      </ul>
+    <section class="card">
+      <h2>Goal</h2>
+      <p>Create a network shared location to access files as required, as well as host a database file for a later project (Uptime-Kuma, network monitoring).</p>
     </section>
 
-    <section class="card" aria-labelledby="sec">
-      <h2 id="sec">Security</h2>
+    <section class="card">
+      <h2>Networking</h2>
       <ul>
-        <li>Set folder access permissions so only specific people or groups can open, change, or save files.</li>
-        <li>Matched the folder’s Windows security (NTFS) permissions with the share permissions.</li>
-        <li>Turned off old, unsafe SMB version (SMBv1) that hackers could exploit.</li>
-        <li>Kept the newer, safer SMB versions (SMBv2 and SMBv3) running for compatibility.</li>
-        <li>Tested setup:
-          <ul>
-            <li>Trusted computer can connect normally.</li>
-            <li>Untrusted computer is blocked.</li>
-          </ul>
-        </li>
+        <li>Configured Windows Firewall to allow access only from specific users within a defined IP address range. Access requires local Windows accounts with passwords.</li>
+        <li>In a larger deployment, tighter segmentation could be applied using VLANs, ACLs, or static IP assignments. In this lab setup with only two computers, segmentation was not required.</li>
+        <li>The shared folder was created in Windows Computer Management, allowing other computers to connect using DNS (hostname resolution).</li>
+        <li>Disabled all “Allow Everyone” network rules to prevent unknown devices from discovering or accessing the share.</li>
       </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="images/IP Address Range.png" alt="Networking config">
+          <figcaption>Windows Firewall configuration</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="mean">
-      <h2 id="mean">What This Means</h2>
-      <p>Only trusted devices inside the office network can access the shared folder. People outside of that network, or without permission, can’t even see the share. The connection uses a newer, safer version of file sharing.</p>
+    <section class="card">
+      <h2>Security</h2>
+      <ul>
+        <li>Configured folder permissions so only specific user groups can read the files. Write access was not required.</li>
+        <li>Ensured NTFS permissions and share permissions match, avoiding accidental over-provisioning of access.</li>
+        <li>Disabled legacy and unsafe SMB versions (SMBv1/2) to reduce exposure to known exploits.</li>
+        <li>Enabled only SMBv3 over TCP port 445, which is supported by all endpoints in the environment.</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="images/Share Permissions" alt="Security permissions">
+          <figcaption>Folder permissions</figcaption>
+        </figure>
+	<figure>
+          <img src="images/SMBvsDisabled.png" alt="Security permissions">
+          <figcaption>SMBv1/2 Disabled</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Testing</h2>
+      <ul>
+        <li>✅ A computer on the allowed IP range, using an authorized Windows account, successfully connected to the share.</li>
+        <li>❌ A computer outside the allowed IP range, or using an unauthorized account, could not connect.</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="images/Testing Suces.png" alt="Successful connection">
+          <figcaption>Trusted computer connected</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Outcome</h2>
+      <p>Only trusted, authenticated devices inside the LAN subnet can access the SMB share. Unauthorized devices cannot discover the share via NetBIOS/DNS, and firewall rules block inbound SMB traffic on TCP 445 from outside the allowed range. The setup enforces least-privilege access, uses modern and secure SMB protocols, and reduces the attack surface while meeting the project’s requirements.</p>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="images/LAN.png" alt="Network diagram">
+          <figcaption>Network Diagram</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Professional Experience</h2>
+      <p>In my IT roles, I work daily with SMB file shares in a production environment. My responsibilities include:</p>
+      <ul>
+        <li>Creating and managing new file shares for departments and projects, following organizational policies for access control and security.</li>
+        <li>Integrating SMB shares with Active Directory (AD), applying group-based permissions to ensure only authorized users and teams can access resources.</li>
+        <li>Updating and maintaining shared content, ensuring users have reliable access while adhering to compliance and data retention standards.</li>
+        <li>Troubleshooting access issues, often related to group memberships, NTFS/share permission mismatches, or network connectivity.</li>
+        <li>Applying security best practices, such as enforcing SMBv3, disabling legacy protocols, and ensuring firewall rules and access controls align with company policies.</li>
+      </ul>
+      <p>I get hands-on experience with this as part of my day-to-day work, so the concepts I’ve shown in my lab project are the same ones I deal with in real-world setups, just at a larger scale with more users and policies involved.</p>
     </section>
   </div>
 
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <img src="" alt="Expanded view">
+  </div>
+
   <script>
+    // Dark mode toggle
     (function(){
       const btn = document.getElementById('darkToggle');
       const html = document.documentElement;
@@ -151,6 +242,21 @@
       }, false);
       updateLabel();
     })();
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
   </script>
 </body>
 </html>
