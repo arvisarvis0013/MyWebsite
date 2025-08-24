@@ -77,19 +77,24 @@
     p{ color:var(--muted); margin:8px 0 0; }
 
     .image-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:16px;
-      margin-top:12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
     }
 
     figure{ margin:0; text-align:center; }
     figure img{
-      width:100%;
+      max-width: 420px;
+      width: 100%;
+      height: auto;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       cursor:pointer;
       transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
     }
     figure img:hover{ transform:scale(1.02); }
     figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
@@ -121,7 +126,7 @@
       cursor:pointer;
     }
 
-    @media (max-width:64px){
+    @media (max-width:640px){
       .container{ padding:18px; }
       h1{ font-size:22px; }
     }
@@ -130,7 +135,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <a class="back" href="../index.html">← Back to Home</a>
+      <a class="back" href="index.html">← Back to Home</a>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
 
@@ -152,7 +157,7 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/IP Address Range.png" alt="Networking config">
+          <img src="images/IP Address Range.png" alt="Networking config">
           <figcaption>Windows Firewall configuration</figcaption>
         </figure>
       </div>
@@ -169,11 +174,11 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/Share Permissions.png" alt="Security permissions">
+          <img src="images/Share Permissions.png" alt="Security permissions">
           <figcaption>Folder permissions</figcaption>
         </figure>
         <figure>
-          <img src="../images/SMBvsDisabled.png" alt="SMB versions disabled">
+          <img src="images/SMBvsDisabled.png" alt="SMBv1/2 Disabled">
           <figcaption>SMBv1/2 Disabled</figcaption>
         </figure>
       </div>
@@ -188,7 +193,7 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/Testing Sucess.png" alt="Successful connection">
+          <img src="images/Testing Suces.png" alt="Successful connection">
           <figcaption>Trusted computer connected</figcaption>
         </figure>
       </div>
@@ -200,7 +205,7 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/LAN.png" alt="Network diagram">
+          <img src="images/LAN.png" alt="Network diagram">
           <figcaption>Network Diagram</figcaption>
         </figure>
       </div>
