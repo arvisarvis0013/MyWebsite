@@ -30,7 +30,7 @@
       --shadow: 0 6px 16px rgba(255,255,255,0.05);
     }
 
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box}
     body{
       margin:0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -42,24 +42,10 @@
       line-height:1.5;
     }
 
-    .container{
-      max-width:920px;
-      margin:0 auto;
-      padding:28px;
-    }
+    .container{ max-width:920px; margin:0 auto; padding:28px; }
+    .header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
 
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    a.back{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-    }
+    a.back{ text-decoration:none; color:var(--muted); font-size:14px; }
     a.back:hover{ color: var(--text); }
 
     .toggle-btn{
@@ -74,8 +60,9 @@
     }
     .toggle-btn:active{ transform: translateY(1px); }
 
-    h1{ font-size:28px; margin:18px 0 12px; }
+    h1{ font-size:28px; margin:18px 0 6px; }
     h2{ font-size:20px; margin:14px 0 8px; }
+    h3{ font-size:18px; margin:12px 0 6px; }
 
     .card{
       background: var(--card-bg);
@@ -83,11 +70,61 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       margin-top:12px;
-      transition: background 220ms ease, box-shadow 220ms ease;
+      transition: background 220ms ease, border-color 220ms ease;
     }
 
-    ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
     p{ color:var(--muted); margin:8px 0 0; }
+
+    .image-grid{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      max-width: 420px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.3s ease;
+      z-index:1000;
+    }
+    .lightbox.active{ opacity:1; visibility:visible; }
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius: var(--radius);
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox:after{
+      content:"✕";
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      color:white;
+      cursor:pointer;
+    }
 
     @media (max-width:640px){
       .container{ padding:18px; }
@@ -98,52 +135,75 @@
 <body>
   <div class="container">
     <div class="header">
-      <a class="back" href="index.html">← Back to Home</a>
+      <a class="back" href="https://arvysite.org/">← Back to Home</a>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
 
     <h1>Network Monitoring Tools</h1>
 
-    <section class="card" aria-labelledby="overview">
-      <h2 id="overview">Overview</h2>
-      <p>Deployed a network monitoring tool in a Docker container on Debian Linux. Provides real-time visibility into traffic and devices, accessible only on LAN.</p>
+    <section class="card">
+      <h2>Project</h2>
+      <p>This project deploys a network monitoring tool within a Docker container on a Debian Linux server. The tool provides real-time visibility into network traffic, devices, and resource usage, and is accessible exclusively over the Local Area Network (LAN).</p>
     </section>
 
-    <section class="card" aria-labelledby="network-setup">
-      <h2 id="network-setup">Network Setup</h2>
-      <ul>
-        <li>Tool runs inside Docker, mapped to LAN IP.</li>
-        <li>Access restricted to trusted LAN devices via firewall rules.</li>
-        <li>VPN with MFA allows secure external connections for approved users only.</li>
-      </ul>
+    <section class="card">
+      <h2>Network Setup</h2>
+      <p>The monitoring tool runs inside a Docker container, mapped to a single port on the host machine’s LAN IP address. Access is restricted to trusted LAN subnets through firewall rules, ensuring only authorized devices can connect. Wireless networks are excluded, as their subnets are denied access.</p>
+      <p>For secure external access, a VPN with multi-factor authentication (MFA) is configured. Only designated VPN groups are permitted to connect, adding an additional layer of control and security.</p>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/network-setup.png" alt="Network setup diagram">
+          <figcaption>Network Setup Diagram</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="security-setup">
-      <h2 id="security-setup">Security Setup</h2>
-      <ul>
-        <li>Login and MFA required.</li>
-        <li>MAC filtering limits switch connectivity.</li>
-        <li>Wireless networks segregated.</li>
-        <li>VPN with MFA secures remote access.</li>
-      </ul>
+    <section class="card">
+      <h2>Security Setup</h2>
+      <p>Access to the monitoring dashboard is protected with login credentials and MFA. Brute-force attempts are mitigated with account lockouts and login timeouts.</p>
+      <p>At the network layer, MAC filtering is enabled on switch ports to restrict connectivity to known endpoints, while unused ports remain disabled. Wireless and guest networks are segmented away from the monitoring subnet to prevent unauthorized access.</p>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/security-setup.png" alt="Security configuration">
+          <figcaption>Security Configurations</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="notifications">
-      <h2 id="notifications">Notifications</h2>
-      <ul>
-        <li>Automated alerts notify administrators of key network events in real time.</li>
-      </ul>
+    <section class="card">
+      <h2>Notifications</h2>
+      <p>Automated notifications are configured to alert administrators in real time of critical network events, outages, or anomalies. This enables proactive intervention before issues escalate into user-impacting incidents.</p>
     </section>
 
-    <section class="card" aria-labelledby="usage">
-      <h2 id="usage">Usage</h2>
+    <section class="card">
+      <h2>Usage</h2>
+      <p>The tool is designed for system administrators to monitor traffic patterns, service availability, and device health, while also receiving timely alerts on network issues.</p>
+    </section>
+
+    <section class="card">
+      <h2>Professional Experience</h2>
+      <p>In my professional IT roles, I work daily with enterprise-grade monitoring platforms, most notably <strong>PRTG Network Monitor</strong>. My responsibilities include:</p>
       <ul>
-        <li>Designed for admins to monitor traffic and receive alerts for issues quickly.</li>
+        <li>Configuring sensors to monitor ports, services, uptime, and bandwidth utilization.</li>
+        <li>Tracking resource usage (CPU, memory, disk) across critical infrastructure.</li>
+        <li>Implementing custom checks for applications and APIs to ensure end-to-end availability.</li>
+        <li>Designing notification workflows that escalate incidents based on severity and impact.</li>
+        <li>Integrating monitoring systems with ticketing and alerting tools for efficient incident response.</li>
+        <li>Optimizing dashboards and reports to provide actionable insights for management and operations.</li>
       </ul>
+      <p>This experience allows me to design, deploy, and maintain monitoring environments that are scalable, secure, and proactive—whether in lab projects or enterprise production environments.</p>
     </section>
   </div>
 
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <img src="" alt="Expanded view">
+  </div>
+
   <script>
+    // Dark mode toggle
     (function(){
       const btn = document.getElementById('darkToggle');
       const html = document.documentElement;
@@ -159,6 +219,21 @@
       }, false);
       updateLabel();
     })();
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
   </script>
 </body>
 </html>
