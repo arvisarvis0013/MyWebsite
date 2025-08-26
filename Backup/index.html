@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Endpoint Data and Image Backup</title>
+  <title>Endpoint Data Backup & Restoration</title>
 
   <style>
     :root{
@@ -76,6 +76,7 @@
 
     h1{ font-size:28px; margin:18px 0 12px; }
     h2{ font-size:20px; margin:14px 0 8px; }
+    h3{ font-size:18px; margin:12px 0 6px; }
 
     .card{
       background: var(--card-bg);
@@ -89,6 +90,56 @@
     ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
     p{ color:var(--muted); margin:8px 0 0; }
 
+    .image-grid{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      max-width: 420px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.3s ease;
+      z-index:1000;
+    }
+    .lightbox.active{ opacity:1; visibility:visible; }
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius: var(--radius);
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox:after{
+      content:"✕";
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      color:white;
+      cursor:pointer;
+    }
+
     @media (max-width:640px){
       .container{ padding:18px; }
       h1{ font-size:22px; }
@@ -98,70 +149,139 @@
 <body>
   <div class="container">
     <div class="header">
-      <a class="back" href="index.html">← Back to Home</a>
+      <a class="back" href="https://arvysite.org">← Back to Home</a>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
 
-    <h1>Endpoint Data and Image Backup</h1>
+    <h1>Endpoint Data Backup & Restoration</h1>
 
     <section class="card" aria-labelledby="infra">
       <h2 id="infra">Infrastructure Setup</h2>
-      <ul>
-        <li>Provisioned server hardware with CPU, RAM, and redundant storage (RAID).</li>
-        <li>Installed and configured Type 1 hypervisor (VMware ESXi/Proxmox/Hyper-V).</li>
-        <li>Storage pools and resources optimized for VM performance and reliability.</li>
-      </ul>
+      <p>A physical server has been provisioned with sufficient CPU, memory, and storage to support virtualization. Microsoft Hyper-V is deployed as the hypervisor, hosting a virtual machine (VM) that functions as the file/backup server. Storage resources are carefully allocated to ensure stable VM performance.</p>
+      <p>For redundancy, the VM itself is periodically backed up to external media (USB drive). While RAID and multi-drive configurations are not in place due to hardware limitations, the environment is designed to provide reliable backup and restore operations. Additional redundancy could be achieved in the future by implementing cloud storage or off-site backup solutions.</p>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/infra.png" alt="Infrastructure setup">
+          <figcaption>Infrastructure Overview</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="network">
       <h2 id="network">Networking</h2>
-      <ul>
-        <li>Created virtual switches and VLANs for management, VM, and storage networks.</li>
-        <li>Applied firewall rules to restrict unauthorized access and control traffic.</li>
-      </ul>
+      <p>The networking configuration prioritizes security and isolation while remaining simple. Firewall rules restrict access to the backup server, ensuring only authorized devices and users can connect (e.g., ICMP disabled except where explicitly allowed by policy). VLAN segmentation separates backup traffic from regular network traffic, reducing risks of unauthorized access and minimizing disruptions.</p>
+      <p>Beyond these measures, no advanced networking features are required. Data is transferred and stored using standard file shares, keeping the design straightforward while still ensuring secure and reliable access to backup resources.</p>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/network.png" alt="Networking config">
+          <figcaption>Network Configuration</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="vm">
       <h2 id="vm">VM Deployment</h2>
-      <ul>
-        <li>Deployed VMs with tailored CPU, memory, and disk allocations.</li>
-        <li>Standardized configurations streamline management and backups.</li>
-      </ul>
+      <p>A primary VM was deployed to act as the file/backup server, focused on secure storage and redundancy to protect against corruption, accidental deletion, or other data loss events.</p>
+      <p>A secondary VM was deployed to test the restoration process, ensuring backups are recoverable when required.</p>
+      <p>RAID was considered to improve redundancy but could not be implemented due to hardware limitations.</p>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/vm.png" alt="VM deployment">
+          <figcaption>VM Deployment Overview</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="backup">
       <h2 id="backup">Backup & Restore Strategy</h2>
       <ul>
-        <li>Implemented backup software (Veeam/Altaro) with onsite NAS and offsite/cloud redundancy.</li>
-        <li>Scheduled full and incremental backups with test restores to ensure data reliability.</li>
+        <li><strong>VM Backup Software:</strong> A Hyper-V–compatible solution has been deployed to handle VM-level backups.</li>
+        <li><strong>Schedule:</strong> Regular full backups are performed, supplemented by more frequent incremental backups.</li>
+        <li><strong>Restoration:</strong> Procedures have been documented, and periodic test restores confirm backup reliability.</li>
+        <li><strong>Future improvements:</strong> Off-site or cloud-based storage could be added to provide additional protection and redundancy.</li>
       </ul>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/backup.png" alt="Backup strategy">
+          <figcaption>Backup Schedule</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="security">
       <h2 id="security">Security Measures</h2>
       <ul>
-        <li>Role-based access controls, network segmentation, encryption of VM disks and backups, and secure protocols in transit.</li>
-        <li>Patch management ensures systems are current.</li>
+        <li><strong>Access Controls:</strong> Group-based permissions are enforced for both the hypervisor and VM management to restrict access to authorized users only.</li>
+        <li><strong>Firewall Rules:</strong> Configured to block unauthorized devices and limit exposure.</li>
+        <li><strong>Encryption:</strong> VM disks and backup data are encrypted to protect information at rest.</li>
+        <li><strong>Potential enhancements:</strong> VLANs and ACLs could be expanded to further segment backup infrastructure. Patch management processes should be formalized.</li>
       </ul>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/security.png" alt="Security measures">
+          <figcaption>Security Policies</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="monitor">
       <h2 id="monitor">Monitoring & Maintenance</h2>
       <ul>
-        <li>Monitoring tools track host/VM usage.</li>
-        <li>Backup jobs logged with alerts on failures.</li>
-        <li>Routine log reviews and system checks maintain uptime.</li>
+        <li><strong>Monitoring:</strong> Uptime Kuma is used to continuously monitor host uptime, VM resources, ports, and services.</li>
+        <li><strong>Backup Alerts:</strong> Backup jobs generate email/text notifications, with alerts triggered for failures or performance issues.</li>
+        <li><strong>Ongoing Maintenance:</strong> Routine log reviews and system health checks should be performed to maintain reliability and ensure early detection of issues.</li>
       </ul>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/monitor.png" alt="Monitoring dashboard">
+          <figcaption>Monitoring Dashboard</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="card" aria-labelledby="dr">
       <h2 id="dr">Disaster Recovery & Documentation</h2>
-      <ul>
-        <li>Documented procedures, network design, and security policies.</li>
-        <li>Maintained onsite/offsite copies.</li>
-        <li>Disaster recovery plan includes VM failover to minimize downtime.</li>
-      </ul>
+      <p>Comprehensive documentation has been completed covering restore procedures, security policies, and system configuration. A disaster recovery plan has also been developed, detailing VM failover and recovery processes to minimize downtime in the event of a failure.</p>
+      <p><strong>Potential improvements:</strong> Develop a more detailed network design, if access by additional users or systems becomes necessary. Maintain both onsite and offsite backup copies that can be quickly accessed in an emergency.</p>
+
+      <div class="image-grid">
+        <figure>
+          <img src="../images/dr.png" alt="Disaster recovery plan">
+          <figcaption>Disaster Recovery Workflow</figcaption>
+        </figure>
+      </div>
     </section>
+
+    <section class="card" aria-labelledby="proexp">
+      <h2 id="proexp">Professional Experience & Practices</h2>
+      <p>This lab environment is intentionally simplified due to hardware limitations, but it reflects the same principles I apply in my professional work with enterprise-grade backup and recovery solutions.</p>
+      <ul>
+        <li><strong>Enterprise Backup Software:</strong> Veeam, Altaro for large-scale VM and application protection.</li>
+        <li><strong>Advanced Storage & Redundancy:</strong> SAN/NAS systems, RAID arrays, and deduplication appliances.</li>
+        <li><strong>High Availability & Disaster Recovery:</strong> Replication, clustering, and offsite/cloud-based solutions.</li>
+        <li><strong>Security & Compliance:</strong> Encryption, Role-Based Access Control, and audit logging.</li>
+        <li><strong>Monitoring & Automation:</strong> Enterprise monitoring suites and automated alerting/reporting.</li>
+        <li><strong>Validation & Testing:</strong> Scheduled restore tests and Disaster Recovery simulations to verify data integrity and readiness.</li>
+      </ul>
+      <p>While the implementation documented above is a lightweight environment, it is guided by the same best practices used in enterprise operations and serves as a practical demonstration of backup and restoration fundamentals.</p>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/proexp.png" alt="Professional experience">
+          <figcaption>Enterprise Operations</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <img src="" alt="Expanded view">
   </div>
 
   <script>
@@ -180,6 +300,21 @@
       }, false);
       updateLabel();
     })();
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
   </script>
 </body>
 </html>
