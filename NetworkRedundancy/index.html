@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Network Redundancy (Uptime Kuma HA)</title>
+  <title>Network Redundancy</title>
 
   <style>
     :root{
@@ -30,7 +30,7 @@
       --shadow: 0 6px 16px rgba(255,255,255,0.05);
     }
 
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box}
     body{
       margin:0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -42,24 +42,10 @@
       line-height:1.5;
     }
 
-    .container{
-      max-width:920px;
-      margin:0 auto;
-      padding:28px;
-    }
+    .container{ max-width:920px; margin:0 auto; padding:28px; }
+    .header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
 
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    a.back{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-    }
+    a.back{ text-decoration:none; color:var(--muted); font-size:14px; }
     a.back:hover{ color: var(--text); }
 
     .toggle-btn{
@@ -74,8 +60,9 @@
     }
     .toggle-btn:active{ transform: translateY(1px); }
 
-    h1{ font-size:28px; margin:18px 0 12px; }
+    h1{ font-size:28px; margin:18px 0 6px; }
     h2{ font-size:20px; margin:14px 0 8px; }
+    h3{ font-size:18px; margin:12px 0 6px; }
 
     .card{
       background: var(--card-bg);
@@ -83,14 +70,60 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       margin-top:12px;
-      transition: background 220ms ease, box-shadow 220ms ease;
+      transition: background 220ms ease, border-color 220ms ease;
     }
 
-    ul{ padding-left:20px; margin:8px 0; color:var(--muted); }
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
     p{ color:var(--muted); margin:8px 0 0; }
-    table{ border-collapse:collapse; width:100%; margin-top:8px; }
-    th, td{ border:1px solid rgba(0,0,0,0.1); padding:8px; }
-    th{ background-color: rgba(0,0,0,0.05); text-align:left; }
+
+    .image-grid{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      max-width: 420px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+    .lightbox{
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.3s ease;
+      z-index:1000;
+    }
+    .lightbox.active{ opacity:1; visibility:visible; }
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius: var(--radius);
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox:after{
+      content:"✕";
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      color:white;
+      cursor:pointer;
+    }
 
     @media (max-width:640px){
       .container{ padding:18px; }
@@ -101,64 +134,107 @@
 <body>
   <div class="container">
     <div class="header">
-      <a class="back" href="index.html">← Back to Home</a>
+      <a class="back" href="https://arvysite.org/">← Back to Home</a>
       <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
     </div>
 
-    <h1>Network Redundancy (High Availability with Uptime Kuma)</h1>
+    <h1>Network Redundancy</h1>
 
-    <section class="card" aria-labelledby="goal">
-      <h2 id="goal">Goal</h2>
-      <p>Ensure Uptime Kuma is available 24/7, with automatic failover if the main VM fails, using shared database and virtual IP.</p>
+    <section class="card">
+      <h2>Goal</h2>
+      <p>Ensure Uptime Kuma is available 24/7, with automatic failover if the main VM goes down, using a shared database and a virtual IP.</p>
     </section>
 
-    <section class="card" aria-labelledby="architecture">
-      <h2 id="architecture">Architecture</h2>
+    <section class="card">
+      <h2>Architecture</h2>
       <ul>
-        <li>Two VMs (Master / Backup) running Debian + Docker</li>
-        <li>Shared storage for /app/data (SQLite database)</li>
-        <li>Keepalived manages VIP access</li>
+        <li>Two VMs (Master / Backup) running Debian + Docker.</li>
+        <li>Shared network storage (Windows SMB) where Uptime Kuma stores its SQLite database.</li>
+        <li>Keepalived manages a Virtual IP (VIP) that clients use to access the service.</li>
       </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/architecture.png" alt="Architecture diagram">
+          <figcaption>High-level architecture</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="active-passive">
-      <h2 id="active-passive">Active / Passive Setup</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>VM</th>
-            <th>Role</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>VM1</td>
-            <td>MASTER</td>
-            <td>Runs container, holds VIP, writes to shared DB</td>
-          </tr>
-          <tr>
-            <td>VM2</td>
-            <td>BACKUP</td>
-            <td>Container stopped, monitors VIP, takes over on failover</td>
-          </tr>
-        </tbody>
+    <section class="card">
+      <h2>Active / Passive Setup</h2>
+      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; margin:12px 0; width:100%;">
+        <tr><th>VM</th><th>Role</th><th>Status</th></tr>
+        <tr><td>VM1</td><td>MASTER</td><td>Runs container, holds VIP, writes to shared DB</td></tr>
+        <tr><td>VM2</td><td>BACKUP</td><td>Container stopped, monitors VIP, ready to take over</td></tr>
       </table>
+      <p>Only one instance writes to SQLite at a time to prevent corruption.</p>
+      <p>Failover recovery time is ~5 seconds. MASTER is configured with preemption to automatically reclaim VIP and resume container operation when it comes back online.</p>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/active-passive.png" alt="Active/Passive setup">
+          <figcaption>Master / Backup configuration</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="failover">
-      <h2 id="failover">Failover Workflow</h2>
-      <p>If MASTER fails, VIP moves to BACKUP. Backup starts container. When MASTER returns, it preempts BACKUP and resumes service.</p>
-    </section>
-
-    <section class="card" aria-labelledby="benefits">
-      <h2 id="benefits">Benefits</h2>
+    <section class="card">
+      <h2>Failover Workflow</h2>
       <ul>
-        <li>High availability with minimal downtime</li>
-        <li>Shared database ensures consistency</li>
-        <li>Automatic failover between VMs</li>
+        <li>MASTER VM runs Uptime Kuma container, forwarding all traffic via VIP.</li>
+        <li>BACKUP VM monitors VIP via Keepalived.</li>
+        <li>If MASTER fails:
+          <ul>
+            <li>VIP moves to BACKUP VM.</li>
+            <li>Keepalived triggers a script to start Docker container on BACKUP.</li>
+          </ul>
+        </li>
+        <li>When MASTER returns:
+          <ul>
+            <li>VIP preempts BACKUP.</li>
+            <li>MASTER starts container; BACKUP stops container.</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/failover.png" alt="Failover workflow">
+          <figcaption>Automatic failover process</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Components</h2>
+      <ul>
+        <li><strong>Uptime Kuma</strong> – Docker container monitoring service.</li>
+        <li><strong>Docker volumes</strong> – points to shared storage.</li>
+        <li><strong>Keepalived</strong> – Manages VIP and triggers container start/stop scripts.</li>
+        <li><strong>Notify script</strong> – Starts container on MASTER, stops on BACKUP.</li>
       </ul>
     </section>
+
+    <section class="card">
+      <h2>Benefits</h2>
+      <ul>
+        <li>High availability: service remains reachable even if one VM fails.</li>
+        <li>Single source of truth for monitors (shared SQLite DB) – backed up locally.</li>
+        <li>Minimal downtime with automatic failover (~5 seconds).</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/benefits.png" alt="Redundancy benefits">
+          <figcaption>High availability benefits</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <img src="" alt="Expanded view">
   </div>
 
   <script>
@@ -177,6 +253,20 @@
       }, false);
       updateLabel();
     })();
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
   </script>
 </body>
 </html>
