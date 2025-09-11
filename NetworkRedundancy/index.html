@@ -155,7 +155,7 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/architecture.png" alt="Architecture diagram">
+          <img src="../images/NetworkRedundancyImages/Architecture.png" alt="Architecture diagram">
           <figcaption>High-level architecture</figcaption>
         </figure>
       </div>
@@ -170,13 +170,6 @@
       </table>
       <p>Only one instance writes to SQLite at a time to prevent corruption.</p>
       <p>Failover recovery time is ~5 seconds. MASTER is configured with preemption to automatically reclaim VIP and resume container operation when it comes back online.</p>
-      <h3>Images</h3>
-      <div class="image-grid">
-        <figure>
-          <img src="../images/active-passive.png" alt="Active/Passive setup">
-          <figcaption>Master / Backup configuration</figcaption>
-        </figure>
-      </div>
     </section>
 
     <section class="card">
@@ -200,7 +193,7 @@
       <h3>Images</h3>
       <div class="image-grid">
         <figure>
-          <img src="../images/failover.png" alt="Failover workflow">
+          <img src="../images/NetworkRedundancyImages/Failover Workflow.png" alt="Failover workflow">
           <figcaption>Automatic failover process</figcaption>
         </figure>
       </div>
@@ -223,13 +216,6 @@
         <li>Single source of truth for monitors (shared SQLite DB) – backed up locally.</li>
         <li>Minimal downtime with automatic failover (~5 seconds).</li>
       </ul>
-      <h3>Images</h3>
-      <div class="image-grid">
-        <figure>
-          <img src="../images/benefits.png" alt="Redundancy benefits">
-          <figcaption>High availability benefits</figcaption>
-        </figure>
-      </div>
     </section>
   </div>
 
