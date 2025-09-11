@@ -180,6 +180,21 @@
       });
       updateLabel();
     })();
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
   </script>
 </body>
 </html>
