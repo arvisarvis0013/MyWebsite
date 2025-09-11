@@ -168,8 +168,8 @@
       <ul>
         <li>Configured folder permissions so only specific user groups can read the files. Write access was not required.</li>
         <li>Ensured NTFS permissions and share permissions match, avoiding accidental over-provisioning of access.</li>
-        <li>Disabled legacy and unsafe SMB versions (SMBv1/2) to reduce exposure to known exploits.</li>
-        <li>Enabled only SMBv3 over TCP port 445, which is supported by all endpoints in the environment.</li>
+        <li>Disabled legacy and unsafe SMB version (SMBv1) to reduce exposure to known exploits.</li>
+        <li>Enabled only SMBv2/3 over TCP port 445, which is supported by all endpoints in the environment.</li>
       </ul>
       <h3>Images</h3>
       <div class="image-grid">
@@ -179,7 +179,7 @@
         </figure>
         <figure>
           <img src="../images/SMBvsDisabled.png" alt="SMBv1/2 Disabled">
-          <figcaption>SMBv1/2 Disabled</figcaption>
+          <figcaption>SMBv1 Disabled</figcaption>
         </figure>
       </div>
     </section>
