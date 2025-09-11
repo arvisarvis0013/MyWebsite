@@ -77,6 +77,29 @@
     ol{ padding-left:20px; margin:8px 0; color:var(--muted) }
     p{ color:var(--muted); margin:8px 0 0; }
 
+    .image-grid{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      max-width: 420px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
     /* Lightbox */
     .lightbox{
       position:fixed;
@@ -103,7 +126,7 @@
       color:white;
       cursor:pointer;
     }
-    
+
     @media (max-width:640px){
       .container{ padding:18px; }
       h1{ font-size:22px; }
@@ -178,7 +201,6 @@
         </figure>
       </div>
     </section>
-    
 
     <section class="card">
       <h2>Security Improvements</h2>
@@ -190,7 +212,8 @@
     </section>
   </div>
 
-   <div id="lightbox" class="lightbox">
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
     <img src="" alt="Expanded view">
   </div>
 
@@ -208,7 +231,7 @@
       btn.addEventListener('click', function(){
         html.classList.toggle('dark');
         updateLabel();
-      });
+      }, false);
       updateLabel();
     })();
 
