@@ -161,11 +161,12 @@
     <section class="card">
       <h2>Network Topology</h2>
       <ul>
-        <li>External Network → ISP Router (with public IP, port forwarding enabled).</li>
+        <li>External Network → ISP Router (port forwarding enabled).</li>
         <li>Firewall (ASA 5506-X) → Provides VPN services, sits behind router, receives DHCP on outside interface.</li>
-        <li>Internal Network (LAN) → <code>192.168.1.0/24</code>, protected behind the firewall.</li>
-        <li>Internal Network (VPN) → clients receive addresses from <code>192.168.50.0/24</code> pool.</li>
-        <li>Remote users connect via AnyConnect client to the router’s public IP.</li>
+        <li>Internal Network (LAN) → protected behind the firewall, contains SMB File Share.</li>
+        <li>Internal Admin Network (VPN) → clients receive dhcp addresses the Admin pool.</li>
+        <li>Internal General Network (VPN) → clients receive dhcp addresses the General pool.</li>
+        <li>Remote users connect via AnyConnect client to the router’s public IP on a specific port.</li>
       </ul>
       <h3>Images</h3>
       <div class="image-grid">
@@ -179,11 +180,11 @@
     <section class="card">
       <h2>Implementation Steps</h2>
       <ol>
-        <li>Create a VPN address pool for remote clients.</li>
-        <li>Define a split-tunnel ACL to specify which internal networks are reachable.</li>
-        <li>Create a group policy and apply the split-tunnel ACL.</li>
+        <li>Create VPN address pools for Admin / General users.</li>
+        <li>Define split-tunnel ACLs to specify which internal networks are reachable.</li>
+        <li>Create group policies and apply the split-tunnel ACLs.</li>
         <li>Create a tunnel group and link it to the address pool and group policy.</li>
-        <li>Configure NAT exemption so VPN traffic can reach the LAN without being translated.</li>
+        <li>Configure NAT exemptions so VPN traffic can reach the LAN without being translated.</li>
         <li>On the upstream router, configure port forwarding from the public IP to the firewall’s outside interface.</li>
       </ol>
     </section>
