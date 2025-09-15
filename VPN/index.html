@@ -146,6 +146,71 @@
       <h2>Project Overview</h2>
       <p>This project involved designing and implementing a secure Remote Access VPN solution on a Cisco ASA 5506-X firewall to enable users on an external network to access internal (Business) resources.</p>
       <li>Design of the project can be found in the github repository</li>
+      <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
+      Tunnels:
+adminAccess - Access to everything
+	adminPool of IP's assigned
+	authentication-server-group LOCAL
+
+General - SMB File Share access only
+	generalPool of IP's assigned
+	authentication-server-group LOCAL
+
+IP Pools:
+adminPool - 172.16.2.250-252 /24
+generalPool - 172.16.1.10-200 /24
+
+Network Objects:
+adminPool - 172.16.10.0/24
+generalPool - 172.16.1.0/24
+insideNet - 172.16.0.0/24
+
+ACLs:
+#adminPool ips are allowed to communicate with with 172.16.0.0/24
+#generalPool ips are allowed to communicate with 172.16.0.10(SMB Share ip)
+
+splitAdmin - permit all traffic on the LAN to be interacted with over the vpn
+splitGeneral - permit only comms with 172.16.0.10(SMB Share ip)
+
+vpnFilterGeneral - permit access to 1 host 172.16.0.10(SMB Share ip)
+
+Group Policies for VPN:
+
+adminGP:
+	adminAccess #tunnel
+	split-tunnel - splitAdmin ACL used
+	dns - 192.168.0.1 / 8.8.8.8
+	vpn timeout - after 10 mins
+	group-lock value adminAccess
+	vpn-tunnel-protocol ssl-client
+
+
+generalGP:
+	General #Tunnel
+	splitGeneral ACL
+	vpnFilterGeneral ACL
+	dns - 192.168.0.1 / 8.8.8.8
+	vpn timeout - after 30 mins
+	group-lock value General
+	vpn-tunnel-protocol ssl-client
+
+
+NAT:
+nat (realLAN,outside) source static generalPool generalPool destination static insideNet insideNet no-proxy-arp
+nat (realLAN,outside) source static adminPool adminPool destination static insideNet insideNet no-proxy-arp
+nat (inside,outside) source static insideNet insideNet destination static generalPool generalPool no-proxy-arp
+nat (inside,outside) source static insideNet insideNet destination static adminPool adminPool no-proxy-arp
+
+
+Global Rules:
+	user lockout - after 3 tries
+	#user timeout - 24 hours - this isn't available on my firmware version so I won't be able to implement
+
+	users are group locked - only 2 users are created for testing but a AD controller or Radius server could be implemented for better scaling
+
+
+      </pre>
+
     </section>
 
     <section class="card">
