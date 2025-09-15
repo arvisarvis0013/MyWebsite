@@ -1,3 +1,5 @@
+Project Design
+
 Tunnels:
 adminAccess - Access to everything
 	adminPool of IP's assigned
@@ -58,4 +60,5 @@ Global Rules:
 	#user timeout - 24 hours - this isn't available on my firmware version so I won't be able to implement
 
 	users are group locked - only 2 users are created for testing but a AD controller or Radius server could be implemented for better scaling
+
 
