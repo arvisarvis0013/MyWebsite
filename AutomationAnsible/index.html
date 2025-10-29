@@ -144,21 +144,27 @@
 
     <section class="card">
       <h2>Project Overview</h2>
-      <p>As many network devices are added and removed from a network, automation can make life easier and cause less human error. That's where ansible comes in to assist with that.</p>
+      </p>
+      In modern network environments, the frequent addition and removal of devices can make network management complex and prone to human error. Automation tools help streamline these processes, improve efficiency, and reduce mistakes. This project leverages <strong>Ansible</strong>, a powerful automation platform, to simplify network device configuration and management in a virtual lab environment.
+      </p>
 
     </section>
 
     <section class="card">
       <h2>Objective</h2>
       <ul>
-        <li>Create a working automation server using ansible specifically for network devices</li>
+        <li>Deploy <strong>EVE-NG</strong> as a virtual network lab to simulate a production environment for testing and learning.</li>
+        <li>Establish a fully functional automation server using Ansible, specifically focused on managing and configuring network devices.</li>
+        <li>Develop a hands-on understanding of network automation workflows, including playbook creation, execution, and verification of results.</li>
       </ul>
     </section>
 
     <section class="card">
       <h2>Network Topology</h2>
+      <p>The network topology for this project is intentionally simple to provide a clear learning path. It consists of:</p>
       <ul>
-        <li>This is a simple example using a single debian server hosting Ansible and a single router to configure</li>
+        <li>A single Debian server hosting the Ansible automation platform.</li>
+        <li>A single router acting as a target device for configuration tasks.</li>
       </ul>
       <h3>Image/s</h3>
       <div class="image-grid">
@@ -172,15 +178,16 @@
     <section class="card">
       <h2>Implementation Steps</h2>
       <ol>
-        <li>Setup a VM to host ansible</li>
-        <li>Setup some virtual network devices to perform automation on</li>
-        <li>Setup Playbooks that ansible will use to complete tasks</li>
-        <li>Display Results</li>
+        <li><strong>Set up a Virtual Machine:</strong> Installed Debian to host the Ansible automation server.</li>
+        <li><strong>Deploy Virtual Network Devices:</strong> Configured virtual routers and switches within the EVE-NG lab environment to act as targets for automation.</li>
+        <li><strong>Create Ansible Playbooks:</strong> Developed playbooks to automate repetitive tasks such as interface configuration, VLAN assignment, and basic network verification.</li>
+        <li><strong>Execute Playbooks and Display Results:</strong> Ran the playbooks and documented the outcomes to verify successful automation and identify areas for improvement.</li>
       </ol>
     </section>
 
     <section class="card">
       <h2>Results</h2>
+      <p>The project demonstrated successful automation of network device configuration using Ansible. The playbooks executed tasks consistently and produced predictable results, significantly reducing the time required for manual configuration.</p>
       <h3>Image/s</h3>
       <div class="image-grid">
         <figure>
@@ -196,10 +203,10 @@
 
     <section class="card">
       <h2>Automation Professional Experience</h2>
-        <ol>
-        <li><strong>No experience using ansible professionally</li>
-        <li><strong>Automox - Patch management - another topic</li>
-        <li><strong>Powershell - some automation of patch management - created a script to check for installed apps and executed it in parallel, 10 machines at a time</li>
+      <ol>
+        <li><strong>No professional experience using Ansible.</strong></li>
+        <li><strong>Automox:</strong> Worked on patch management automation, including scheduling and deployment of updates across multiple systems.</li>
+        <li><strong>PowerShell Scripting:</strong> Automated patch management processes by creating scripts that check for installed applications and execute updates in parallel on multiple machines, typically 10 at a time.</li>
       </ol>
     </section>
  
