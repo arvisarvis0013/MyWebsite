@@ -1,1 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Load Balancer</title>
 
+  <style>
+    :root{
+      --bg-start: #ffffff;
+      --bg-end: #f8fafc;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #0f172a;
+      --muted: #475569;
+      --card-bg: #f3f4f6;
+      --accent-bg: #111827;
+      --accent-text: #ffffff;
+      --shadow: 0 6px 16px rgba(0,0,0,0.2);
+      --radius: 14px;
+    }
+    html.dark {
+      --bg-start: #2a2a2a;
+      --bg-end: #383838;
+      --page-bg: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      --text: #e6eef8;
+      --muted: #b0b0b0;
+      --card-bg: #4a4a4a;
+      --accent-bg: #5a5a5a;
+      --accent-text: #e6eef8;
+      --shadow: 0 6px 16px rgba(255,255,255,0.05);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--page-bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition: background 220ms ease, color 220ms ease;
+      line-height:1.5;
+    }
+
+    .container{ max-width:920px; margin:0 auto; padding:28px; }
+    .header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+
+    a.back{ text-decoration:none; color:var(--muted); font-size:14px; }
+    a.back:hover{ color: var(--text); }
+
+    .toggle-btn{
+      background:var(--accent-bg);
+      color:var(--accent-text);
+      border:0;
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+    .toggle-btn:active{ transform: translateY(1px); }
+
+    h1{ font-size:28px; margin:18px 0 6px; }
+    h2{ font-size:20px; margin:14px 0 8px; }
+    h3{ font-size:18px; margin:12px 0 6px; }
+
+    .card{
+      background: var(--card-bg);
+      padding:18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top:12px;
+      transition: background 220ms ease, border-color 220ms ease;
+    }
+
+    ul{ padding-left:20px; margin:8px 0; color:var(--muted) }
+    p{ color:var(--muted); margin:8px 0 0; }
+
+    .image-grid{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    figure{ margin:0; text-align:center; }
+    figure img{
+      max-width: 420px;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 0.2s;
+      margin: 0 auto;
+      display: block;
+    }
+    figure img:hover{ transform:scale(1.02); }
+    figcaption{ margin-top:6px; font-size:14px; color:var(--muted); }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.3s ease;
+      z-index:1000;
+    }
+    .lightbox.active{ opacity:1; visibility:visible; }
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius: var(--radius);
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+    .lightbox:after{
+      content:"✕";
+      position:absolute;
+      top:20px; right:30px;
+      font-size:28px;
+      color:white;
+      cursor:pointer;
+    }
+
+    @media (max-width:640px){
+      .container{ padding:18px; }
+      h1{ font-size:22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="back" href="https://arvysite.org">← Back to Home</a>
+      <button id="darkToggle" class="toggle-btn" aria-pressed="true">🌞 Switch to Light</button>
+    </div>
+
+    <h1>Load Balancer</h1>
+
+    <section class="card">
+      <h2>Goal</h2>
+      <p>Load Balance Horizontally Scaling Services</p>
+    </section>
+
+    <section class="card">
+      <h2>Networking</h2>
+      <ul>
+        <li>Ideally we want a Virtual IP assigned on the load balancer to forward traffic to the correct place</li>
+        <li>We will need multiple devices hosting the services to distribute the load</li>
+        <li>The network should follow this process: Request > DNS > Load Balancer > Server</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="##../images/IP Address Range.png" alt="Networking config">
+          <figcaption>Network Flow</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Security</h2>
+      <ul>
+        <li>In this case, I will be hosting a service only I want to access. The below will be required:</li>
+        <li>Write/Read Access only for myself</li>
+        <li>Access from outside my LAN</li>
+        <li>Traffic to be encrypted securly</li>
+        <li>Private IP to be hidden</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="##../images/Share Permissions.png" alt="Security permissions">
+          <figcaption>TCP HTTPS Connection</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Testing</h2>
+      <ul>
+        <li>Check external network can connect to the service</li>
+        <li>Block access to restricted users, which is everyone</li>
+        <li>Check that the load balancer is distributing load equally</li>
+      </ul>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="../images/Testing Suces.png" alt="Successful connection">
+          <figcaption>Trusted computer connected</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Outcome</h2>
+      <p></p>
+      <h3>Images</h3>
+      <div class="image-grid">
+        <figure>
+          <img src="##../images/LAN.png" alt="Network diagram">
+          <figcaption></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Professional Experience</h2>
+      <p>Currently I have no experience working with load balancers professionally</p>
+      <ul>
+        <li>PlaceHolder</li>
+      </ul>
+      <p></p>
+    </section>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <img src="" alt="Expanded view">
+  </div>
+
+  <script>
+    // Dark mode toggle
+    (function(){
+      const btn = document.getElementById('darkToggle');
+      const html = document.documentElement;
+      if (!html.classList.contains('dark')) html.classList.add('dark');
+      function updateLabel(){
+        const isDark = html.classList.contains('dark');
+        btn.textContent = isDark ? '🌞 Switch to Light' : '🌙 Switch to Dark';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      }
+      btn.addEventListener('click', function(){
+        html.classList.toggle('dark');
+        updateLabel();
+      }, false);
+      updateLabel();
+    })();
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('figure img').forEach(img=>{
+      img.addEventListener('click', ()=>{
+        lightbox.classList.add('active');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+      });
+    });
+    lightbox.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightboxImg.src = "";
+    });
+  </script>
+</body>
+</html>
