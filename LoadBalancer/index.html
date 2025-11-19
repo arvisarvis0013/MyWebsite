@@ -143,15 +143,15 @@
 
     <section class="card">
       <h2>Goal</h2>
-      <p>Load Balance Horizontally Scaling Services</p>
+      <p>Implement a load-balancing solution capable of horizontally scaling services while ensuring high availability and efficient distribution of traffic</p>
     </section>
 
     <section class="card">
       <h2>Networking</h2>
       <ul>
-        <li>Ideally we want a Virtual IP assigned on the load balancer to forward traffic to the correct place</li>
-        <li>We will need multiple devices hosting the services to distribute the load</li>
-        <li>The network should follow this process: Request > DNS > Load Balancer > Server</li>
+        <li>A Virtual IP (VIP) should be assigned to the load balancer so it can route incoming requests to the appropriate backend service.</li>
+        <li>Multiple servers (or nodes) will be required to host the service so load can be distributed evenly.</li>
+        <li>The intended request flow is: Client Request → DNS → Load Balancer → Server</li>
       </ul>
       <h3>Images</h3>
       <div class="image-grid">
@@ -165,11 +165,11 @@
     <section class="card">
       <h2>Security</h2>
       <ul>
-        <li>In this case, I will be hosting a service only I want to access. The below will be required:</li>
-        <li>Write/Read Access only for myself</li>
-        <li>Access from outside my LAN</li>
-        <li>Traffic to be encrypted securly</li>
-        <li>Private IP to be hidden</li>
+        <li>This environment is intended for a service that only I should have access to. For that reason, the following security requirements must be met:</li>
+        <li>Read and write access must be restricted exclusively to me.</li>
+        <li>Remote access from outside the LAN must be supported.</li>
+        <li>All traffic should be securely encrypted (e.g., via HTTPS).</li>
+        <li>The internal private IP address must remain hidden from external networks.</li>
       </ul>
       <h3>Images</h3>
       <div class="image-grid">
