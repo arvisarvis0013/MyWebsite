@@ -174,6 +174,9 @@
         <li>Remote access from outside the LAN must be supported.</li>
         <li>All traffic should be securely encrypted (e.g., via HTTPS).</li>
         <li>The internal private IP address must remain hidden from external networks.</li>
+        <li></li>
+        <li>So what I've got configured is a Cloudflare tunnel with security policies enabled, in my case only a single email can access the service.</li>
+        <li>The first time anyone would try to access the service via subdomain.domain.org, it will ask for ~Cloudflare credentials which is just configured with policy.</li>
       </ul>
       <h3>Images</h3>
       <div class="image-grid">
@@ -206,14 +209,15 @@
 
     <section class="card">
       <h2>Outcome</h2>
-      <p>Everything is working as aspected.</p>
-      <h3>Images</h3>
+      <p>Everything is working as expected, the service i'm running is unfortunately not able to run in a load balancer due to using sqlite database and I don't have any other self-hosted services currently</p>
+      <li>The load balancer itself is working via a virtual IP currently, I will setup a separate service to get a better represenatation of the results.</li>
+      <!--<h3>Images</h3>
       <div class="image-grid">
-        <figure>
+         <figure>
           <img src="##LoadBalancer/images/PhoneView.png" alt="Load Balancer Weight Distribution">
           <figcaption>Load Balancer Weight Distribution</figcaption>
-        </figure>
-      </div>
+        </figure> 
+      </div>-->
     </section>
 
     <section class="card">
